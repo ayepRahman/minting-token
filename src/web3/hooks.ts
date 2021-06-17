@@ -1,8 +1,40 @@
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "web3/connectors";
+import { Web3Provider } from "@ethersproject/providers";
+import { Contract } from "@ethersproject/contracts";
+import Collectible from "abis/Collectible.json";
+import { setContract } from "redux/contract";
+import { useAppDispatch } from "redux/hooks";
 
-export function useEagerConnect() {
+export const useWeb3Client = () => {
+  const triedEager = useEagerConnect();
+  useLoadSmartContract();
+  useInactiveListener(!triedEager);
+};
+
+export const useLoadSmartContract = () => {
+  const dispatch = useAppDispatch();
+  const { account, library } = useWeb3React<Web3Provider>();
+  if (account && library) {
+    const contractAddress = "0x944D9d11bf1eBba2A6226d373d848CA3A5860165";
+    const contract = new Contract(
+      contractAddress,
+      Collectible.abi,
+      library.getSigner()
+    );
+    dispatch(setContract(contract));
+  } else {
+    console.warn(
+      "[useLoadSmartContract]: Smart contract not deployed to detected network!"
+    );
+  }
+};
+
+/**
+ * handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
+ */
+export const useEagerConnect = () => {
   const { activate, active } = useWeb3React();
 
   const [tried, setTried] = useState(false);
@@ -27,9 +59,12 @@ export function useEagerConnect() {
   }, [tried, active]);
 
   return tried;
-}
+};
 
-export function useInactiveListener(suppress: boolean = false) {
+/**
+ * handle logic to connect in reaction to certain events on the injected ethereum provider, if it existss
+ */
+export const useInactiveListener = (suppress: boolean = false) => {
   const { active, error, activate } = useWeb3React();
 
   useEffect((): any => {
@@ -69,4 +104,4 @@ export function useInactiveListener(suppress: boolean = false) {
       };
     }
   }, [active, error, suppress, activate]);
-}
+};

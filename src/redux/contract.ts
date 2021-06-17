@@ -1,28 +1,23 @@
-// import { useWeb3React } from "@web3-react/core";
-// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
-// export const counterSlice = createSlice({
-//   name: "smarContract",
-//   initialState: {
-//     contract: 0,
-//   },
-//   reducers: {
-//     increment: (state) => {
-//       state.count += 1;
-//     },
-//     decrement: (state) => {
-//       state.count -= 1;
-//     },
-//     add: (state, action: PayloadAction<number>) => {
-//       state.count += action.payload;
-//     },
-//     subtract: (state, action: PayloadAction<number>) => {
-//       state.count -= action.payload;
-//     },
-//   },
-// });
+const initialState: { contract: any } = {
+  contract: null,
+};
 
-// export const { increment, decrement, add, subtract } = counterSlice.actions;
-// export default counterSlice.reducer;
+export const contractSlice = createSlice({
+  name: "smartContract",
+  initialState,
+  reducers: {
+    setContract: (state, action) => {
+      state.contract = action.payload;
+    },
+  },
+});
 
-export {};
+// Selector
+export const selectContract = (state: RootState) => state.contract.contract;
+// Action
+export const { setContract } = contractSlice.actions;
+// Reducer
+export default contractSlice.reducer;

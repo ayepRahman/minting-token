@@ -22,17 +22,15 @@ import { validationSchema } from "./validations";
 import { FieldNames } from "./enums";
 import { FormData } from "./interfaces";
 import { theme } from "styles";
-
-const mockTokenUri = {
-  priceInEth: 1,
-  imgUrl: "",
-  name: "",
-};
+import { useAppSelector } from "redux/hooks";
+import { selectContract } from "redux/contract";
 
 const CreateCollectibleModal = () => {
   const toast = useToast();
+  const contract = useAppSelector(selectContract);
   const { compress } = new Compress();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [imgFile, setImgFile] = React.useState<string>("");
 
   const onDrop = React.useCallback(
@@ -61,24 +59,53 @@ const CreateCollectibleModal = () => {
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (values: any) => {
-    if (!imgFile) {
+  const onSubmit = async (values: any) => {
+    try {
+      setIsLoading(true);
+      if (!imgFile) {
+        setIsLoading(false);
+        toast({
+          position: "top",
+          title: `Please add image before Minting Token!`,
+          status: "error",
+          isClosable: true,
+        });
+      }
+
+      const response = await contract.createCollectible({
+        imgFile,
+        ...values,
+      });
+
+      if (response?.hash) {
+        toast({
+          position: "top",
+          title: `Successfully created ${
+            values.name
+          } with hash ${response?.hash.substring(0, 16)}...`,
+          status: "success",
+        });
+        setImgFile("");
+        reset();
+        onClose();
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
       toast({
-        title: `Please add image before Minting Token!`,
+        position: "top",
+        title: error.message,
         status: "error",
         isClosable: true,
       });
     }
-    console.log({
-      imgFile,
-      ...values,
-    });
   };
 
   return (
@@ -107,7 +134,11 @@ const CreateCollectibleModal = () => {
                   alignItems="center"
                   textAlign="center"
                   borderRadius="0.5rem"
-                  border={`1px dashed ${theme.colors.gray[500]}`}
+                  border={`1px dashed ${
+                    isDragActive
+                      ? theme.colors.green[200]
+                      : theme.colors.gray[500]
+                  }`}
                   cursor="pointer"
                   mb="1rem"
                   {...getRootProps()}
@@ -163,6 +194,7 @@ const CreateCollectibleModal = () => {
                 bg="green.200"
                 width="100%"
                 color="white"
+                isLoading={isLoading}
               >
                 Mint
               </Button>

@@ -12,9 +12,6 @@ import { MagicConnector } from "@web3-react/magic-connector";
 import { PortisConnector } from "@web3-react/portis-connector";
 import { TorusConnector } from "@web3-react/torus-connector";
 
-console.log(process.env.REACT_APP_RPC_URL_1);
-console.log(process.env.REACT_APP_RPC_URL_4);
-
 const POLLING_INTERVAL = 12000;
 const RPC_URLS: { [chainId: number]: string } = {
   1: process.env.REACT_APP_RPC_URL_1 as string,
