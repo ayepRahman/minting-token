@@ -4,10 +4,19 @@ import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ThemeProvider } from "@emotion/react";
 import { BrowserRouter } from "react-router-dom";
-import store from "redux/store";
+import { Web3ReactProvider } from "@web3-react/core";
+import { Web3Provider } from "@ethersproject/providers";
 import { theme } from "styles";
+import store from "redux/store";
 import App from "containers/App";
 import reportWebVitals from "./reportWebVitals";
+
+const getLibrary = (provider: any, connector: any): Web3Provider => {
+  const library = new Web3Provider(provider);
+  library.pollingInterval = 12000;
+  console.log("library", library);
+  return library;
+};
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,7 +24,9 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <BrowserRouter>
-            <App />
+            <Web3ReactProvider getLibrary={getLibrary}>
+              <App />
+            </Web3ReactProvider>
           </BrowserRouter>
         </Provider>
       </ThemeProvider>
