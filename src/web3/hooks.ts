@@ -17,7 +17,8 @@ export const useLoadSmartContract = () => {
   const dispatch = useAppDispatch();
   const { account, library } = useWeb3React<Web3Provider>();
   if (account && library) {
-    const contractAddress = "0x944D9d11bf1eBba2A6226d373d848CA3A5860165";
+    // TODO: - to find a better way of passing contractAddress instead of hardcode value.
+    const contractAddress = "0x7169668857DCE9E2E7b5D009afD63Df4c99B294B";
     const contract = new Contract(
       contractAddress,
       Collectible.abi,

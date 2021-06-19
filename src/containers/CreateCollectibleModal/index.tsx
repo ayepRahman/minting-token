@@ -84,7 +84,10 @@ const CreateCollectibleModal = () => {
         ...values,
       });
 
+      await response.wait();
+
       if (response?.hash) {
+        console.log("createCollectible response", response);
         toast({
           position: "top",
           title: `Successfully created ${
@@ -110,7 +113,7 @@ const CreateCollectibleModal = () => {
 
   return (
     <>
-      <Button size="sm" bg="green.200" color="white" onClick={onOpen}>
+      <Button size="sm" bg="green.300" color="white" onClick={onOpen}>
         Mint Token
       </Button>
       <Modal
@@ -136,7 +139,7 @@ const CreateCollectibleModal = () => {
                   borderRadius="0.5rem"
                   border={`1px dashed ${
                     isDragActive
-                      ? theme.colors.green[200]
+                      ? theme.colors.green[300]
                       : theme.colors.gray[500]
                   }`}
                   cursor="pointer"
@@ -166,7 +169,7 @@ const CreateCollectibleModal = () => {
               <Input
                 isInvalid={!!errors[FieldNames.NAME]}
                 placeholder="name"
-                focusBorderColor="green.200"
+                focusBorderColor="green.300"
                 {...register(FieldNames.NAME)}
               />
               {!!errors?.[FieldNames.NAME] && (
@@ -179,7 +182,7 @@ const CreateCollectibleModal = () => {
                 mt="1rem"
                 type="number"
                 placeholder="price in eth"
-                focusBorderColor="green.200"
+                focusBorderColor="green.300"
                 {...register(FieldNames.PRICE)}
               />
               {!!errors?.[FieldNames.PRICE] && (
@@ -191,7 +194,7 @@ const CreateCollectibleModal = () => {
                 type="submit"
                 mt="2rem"
                 mb="1rem"
-                bg="green.200"
+                bg="green.300"
                 width="100%"
                 color="white"
                 isLoading={isLoading}

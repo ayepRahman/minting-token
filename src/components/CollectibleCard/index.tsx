@@ -28,7 +28,7 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
           ETH {eth}
         </Text>
         <Flex>
-          <Button bg="green.200" color="white" size="xs">
+          <Button bg="green.300" color="white" size="xs">
             Buy Token
           </Button>
         </Flex>

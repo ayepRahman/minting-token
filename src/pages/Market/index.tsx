@@ -14,14 +14,14 @@ import {
 } from "@chakra-ui/react";
 import {} from "@chakra-ui/react";
 import CreateCollectibleModal from "containers/CreateCollectibleModal";
-import CollectibleCard from "components/CollectibleCard";
-import { mockCollectible } from "mocks/collectible";
+import CollectibleLists from "containers/CollectibleLists";
 import { useHistory } from "react-router-dom";
 import { Routes } from "enums/Routes";
 
 /**
- * CREATE integration with smart contract
- * LIST token integration with smart contract
+ * TODO:
+ * LIST token integration with smart contract!
+ * ConnectMetamaskButton UI enhancement!
  */
 const UserDropdown = () => {
   const { account, deactivate } = useWeb3React();
@@ -56,73 +56,6 @@ const Header = () => {
   );
 };
 
-const CollectibleList = () => {
-  return (
-    <>
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-      <CollectibleCard
-        src={mockCollectible.imgFile}
-        name={mockCollectible.name}
-        eth={mockCollectible.price}
-      />
-    </>
-  );
-};
-
 const Market = () => {
   const web3React = useWeb3React();
   const history = useHistory();
@@ -138,7 +71,7 @@ const Market = () => {
       <Header />
       <Container maxW="container.lg">
         <Grid mt="2rem" templateColumns="repeat(4, 1fr)" gap={6}>
-          <CollectibleList />
+          <CollectibleLists />
         </Grid>
       </Container>
     </div>

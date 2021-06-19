@@ -7,7 +7,12 @@ const ConnectMetamaskButton = () => {
   const { activate } = useWeb3React();
 
   return (
-    <Button bg="green.300" color="white" onClick={() => activate(injected)}>
+    <Button
+      size="lg"
+      bg="green.300"
+      color="white"
+      onClick={() => activate(injected)}
+    >
       Let's get started!
     </Button>
   );
